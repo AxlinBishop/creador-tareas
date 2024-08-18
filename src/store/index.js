@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    proyectos: [], /* ARREGLO EN DONDE SE GUARDARAN LOS PROYECTOS PARA MOSTRAR EN EL MENU LATERAL */
     tareas: [], /* SE GUARDARÁ LA INFORMACIÓN DE CADA TAREA COMO OBJETO DENTRO DE ESTE ARREGLO */
     isExpanded: true,  /* PARA SABER SI EL MENU LATERAL ESTARÁ EXTENDIDA O CERRADA */
   },
@@ -20,8 +21,11 @@ export default createStore({
       }else{
         state.isExpanded = true
       }
+    },
+    /* AGREGAR PROYECTO AL STATE */
+    agregarProyecto: function(state, payload){
+      state.proyectos.push(payload)
     }
-
   },
   actions: {
   },
