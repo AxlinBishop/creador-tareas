@@ -54,11 +54,12 @@ const proyectoActual = ref(""); /* ACÁ SE GUARDA EL NOMBRE DEL PROYECTO SELECCI
 /* AL PRESIONAR EL BOTÓN SE CAMBIARÁ EL PROYECTO ACTUAL */
 function cambiarProyectoActual(index){ 
     proyectoActual.value = store.state.proyectos[index]; /* CAMBIA EL VALOR DE PROYECTOACTUAL POR EL DEL PROYECTO SELECCIONADO */
+    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 }
 
 /* AL PRESIONAR EL BOTÓN SE AGREGARÁ EL STATE UNA NUEVA TAREA EN EL ARREGLO */
 function agregarTarea(nombre, descripcion){ 
-    tarea.value = {"nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente"}
+    tarea.value = {"proyecto": proyectoActual, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente"}
     store.commit("agregarTarea", tarea.value) /* ENVIA TAREA.VALUE COMO PAYLOAD A LA MUTACIÓN */
 }
 /* AL PRESIONAR LA BARRA DE EXPANSIÓN */
@@ -69,6 +70,7 @@ function changeExpandedState(){  /* CAMBIA EL STATE DE isExpanded, LO QUE MUESTR
 function agregarProyecto(){
     store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
     proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
+    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
     nombreProyecto.value = ""; /* SE REINICIA EL VALOR DEL INPUT */
 }
 
@@ -78,6 +80,7 @@ onMounted(() => {
         store.commit("agregarProyecto", "Proyecto General") /* CREA EL PROYECTO GENERAL EN EL STATE */
     }
     proyectoActual.value = "Proyecto General"; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
+    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 })
 
 </script> 
