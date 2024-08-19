@@ -2,7 +2,7 @@
     DEPENDIENDO EL ESTADO COMPLETADA/PENDIENTE -->
 <template>
     <div class="bloque" v-for="(tarea, index) in store.state.tareas" :key="index">
-        <div v-if="tarea.proyecto == store.state.proyectoActual"> <!-- SOLO SE RENDERIZARAN LAS TAREAS QUE SEAN DEL PROYECTO SELECCIONADO -->
+        <div :style="colorBloque(index)" v-if="tarea.proyecto == store.state.proyectoActual"> <!-- SOLO SE RENDERIZARAN LAS TAREAS QUE SEAN DEL PROYECTO SELECCIONADO -->
             <div class="bloque_info">
                 <p class="bloque_nombre">{{ tarea.nombre }}</p>
                 <p class="bloque_descripcion">{{ tarea.descripcion}}</p>
@@ -17,10 +17,19 @@
 </template>
 <script setup>
 import { useStore } from 'vuex'; /* PARA UTILIZAR LA STORE DE VUEX */
+import { computed } from 'vue'; /* PARA UTILIZAR FUNCIONES COMPUTADAS */
 
 const store = useStore(); /* PARA UTLIZAR LA STORE */
 
 /* MÉTODOS */
+/* COLOR DEL BLOQUE */
+const colorBloque = ((index) => { /* DEPENDIENDO DEL ESTADO DE LA TAREA PENDIENTE/COMPLETADO */
+    if (store.state.tareas[index].estado == "pendiente"){ /* SI ES PENDIENTE */
+        return { backgroundColor: 'red' }/* COLOR DEL BLOQUE ROJO */
+    }else{ /* SI NO ES PENDIENTE (COMPLETADO) */
+        return { backgroundColor: 'green' } /* COLOR DEL BLOQUE VERDE */
+    }
+})
 /* AL PRESIONAR EL BOTÓN, LA TAREA SERÁ ELIMINADA */
 function eliminarTarea(index){
     store.commit("eliminarTarea", index)

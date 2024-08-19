@@ -35,7 +35,7 @@ export default createStore({
       }
     },
     /* AGREGAR PROYECTO AL STATE */
-    agregarProyecto: function(state, payload){
+    agregarProyecto: function(state, payload){ /* RECIBE EL NOMBRE DEL PROYECTO COMO PUSH */
       state.proyectos.push(payload)
     }
   },
