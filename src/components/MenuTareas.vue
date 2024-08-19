@@ -59,7 +59,7 @@ function cambiarProyectoActual(index){
 
 /* AL PRESIONAR EL BOTÓN SE AGREGARÁ EL STATE UNA NUEVA TAREA EN EL ARREGLO */
 function agregarTarea(nombre, descripcion){ 
-    tarea.value = {"proyecto": proyectoActual, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente"}
+    tarea.value = {"proyecto": proyectoActual.value, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente"}
     store.commit("agregarTarea", tarea.value) /* ENVIA TAREA.VALUE COMO PAYLOAD A LA MUTACIÓN */
 }
 /* AL PRESIONAR LA BARRA DE EXPANSIÓN */

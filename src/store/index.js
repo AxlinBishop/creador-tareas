@@ -18,8 +18,15 @@ export default createStore({
     agregarTarea: function(state, payload){
       state.tareas.push(payload)
     },
-
-    /* CAMBIA EL ESTADO DE isExpanded */
+    /* ELIMINAR TAREA */
+    eliminarTarea: function(state, payload){ /* RECIBE EL INDEX COMO PAYLOAD */
+      state.tareas.splice(payload, 1); /* ELIMINA EL ELEMENTO CON INDICE PAYLOAD DEL ARRAY */
+    },
+    /* CAMBIAR ESTADO DE LA TAREA */
+    cambiarEstado: function(state, payload){
+      state.tareas[payload.indice].estado = payload.estado /* CAMBIA EL ESTADO DEL ELEMENTO EN EL INDICE */
+    },
+    /* CAMBIA EL STATE DE isExpanded */
     changeExpandedState: function(state){ 
       if(state.isExpanded){
         state.isExpanded = false
