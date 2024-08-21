@@ -1,7 +1,7 @@
 <!-- ESTE COMPONENTE ES CADA BLOQUE/TAREA QUE SE AGREGA A UNA LISTA DE TAREAS, 
     DEPENDIENDO EL ESTADO COMPLETADA/PENDIENTE -->
 <template>
-    <div class="bloque" v-for="(tarea, index) in store.state.tareas" :key="index">
+    <div class="bloque" >
         <div :style="colorBloque(index)" v-if="tarea.proyecto == store.state.proyectoActual"> <!-- SOLO SE RENDERIZARAN LAS TAREAS QUE SEAN DEL PROYECTO SELECCIONADO -->
             <div class="bloque_info">
                 <p class="bloque_nombre">{{ tarea.nombre }}</p>
@@ -17,14 +17,19 @@
 </template>
 <script setup>
 import { useStore } from 'vuex'; /* PARA UTILIZAR LA STORE DE VUEX */
-import { computed } from 'vue'; /* PARA UTILIZAR FUNCIONES COMPUTADAS */
+import { defineProps } from 'vue'; /* PARA RECIBIR LOS PROPS DESDE LISTATAREASPPENDIENTES */
 
 const store = useStore(); /* PARA UTLIZAR LA STORE */
 
+/* PROPS */
+const props = defineProps({
+    tarea: Object,
+    index: Number,
+});
 /* MÉTODOS */
 /* COLOR DEL BLOQUE */
 const colorBloque = ((index) => { /* DEPENDIENDO DEL ESTADO DE LA TAREA PENDIENTE/COMPLETADO */
-    if (store.state.tareas[index].estado == "pendiente"){ /* SI ES PENDIENTE */
+    if (props.tarea.estado == "pendiente"){ /* SI ES PENDIENTE */
         return { backgroundColor: 'red' }/* COLOR DEL BLOQUE ROJO */
     }else{ /* SI NO ES PENDIENTE (COMPLETADO) */
         return { backgroundColor: 'green' } /* COLOR DEL BLOQUE VERDE */
@@ -36,7 +41,7 @@ function eliminarTarea(index){
 }
 /* AL PRESIONAR EL BOTON CAMBIARA EL ESTADO DE LA TAREA A COMPLETADA */
 function cambiarEstado(index){
-    if(store.state.tareas[index].estado == "pendiente"){ /* SI EL ESTADO DE LA TAREA ES PENDIENTE */
+    if(props.tarea.estado == "pendiente"){ /* SI EL ESTADO DE LA TAREA ES PENDIENTE */
         store.commit("cambiarEstado", {indice: index, estado: "completado"}) /* ENVIA EL OBJETO COMO PAYLOAD */
     }else{ /* EN CASO CONTRARIO (COMPLETADO) */
         store.commit("cambiarEstado", {indice: index, estado: "pendiente"}) /* ENVIA EL OBJETO COMO PAYLOAD */

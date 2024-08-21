@@ -11,7 +11,7 @@ export default createStore({
   },
   mutations: {
     /* CAMBIAR EL ESTADO DE PROYECTO ACTUAL */
-    cambiarProyectoActual: function (state, payload){
+    cambiarProyectoActual: function (state, payload){ /* RECIBE COMO PAYLOAD EL NOMBRE DEL PROYECTO QUE SE SELECCIONÓ */
       state.proyectoActual = payload;
     },
     /* AGREGAR TAREA */
