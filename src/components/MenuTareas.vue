@@ -4,7 +4,7 @@
     <section class="menu fullHeight">
         <!-- UNA BARRA VERTICAL CON EL ICONO DE UNA FLECHA QUE AL PRESIONAR HARÁ QUE SE EXTIENDA LA BARRA -->
         <div class="menuLateral fullHeight" v-if="store.state.isExpanded">
-            <div class="agregarTarea-form">
+            <div class="menuTarea agregarTarea-form">
                 <div class="form-group">
                     <label for="nombreTarea">Nombre de la tarea</label>
                     <input type="text" name="nombreTarea" id="nombreTarea" v-model="nombreTarea">
@@ -16,15 +16,19 @@
                 <button @click="agregarTarea">Agregar Tarea</button>
             </div>
             <hr>
-            <section class="proyectos">
-                <h2>Proyectos</h2>
-                <div class="form-group">
-                    <input type="text" name="nuevoProyecto" id="nuevoProyecto" v-model="nombreProyecto">
-                    <button @click="agregarProyecto">Nuevo Proyecto</button>
+            <section class="menu_proyectos">
+                <div class="proyectos_agregar">
+                    <h2>Proyectos</h2>
+                    <div class="form-group">
+                        <input type="text" name="nuevoProyecto" id="nuevoProyecto" v-model="nombreProyecto">
+                        <button @click="agregarProyecto">Nuevo Proyecto</button>
+                    </div>
                 </div>
-                <div v-for="(proyecto, index) in store.state.proyectos" :key="index">
-                    <div class="proyecto_card" @click="cambiarProyectoActual(index)">
-                        <BloqueProyectos :proyecto />
+                <div class="proyectos">
+                    <div  v-for="(proyecto, index) in store.state.proyectos" :key="index">
+                        <div class="proyecto_card" @click="cambiarProyectoActual(index)">
+                            <BloqueProyectos :proyecto />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -99,13 +103,23 @@ onMounted(() => {
 }
 
 /* ESTILO DE LOS ITEMS DEL MENU LATERAL */
-.menuLateral {
+.menuLateral{
     background-color: aqua;
-    padding: 0 2rem;
     width: 30vh; /* TAMAÑO DEL MENU LATERAL */
+}
+.menuTarea {
+    padding: 0 2rem;
+}
+.menu_proyectos{
+    height: 70%;
+}
+.proyectos{
+    height: 100%;
     overflow-y: auto;
 }
-
+.proyectos_agregar{
+    padding: 1rem;
+}
 .proyecto_card {
     /* ESTILO DE LAS CARD DE PROYECTOS */
     background-color: rgba(41, 45, 150, 0.4);
@@ -124,17 +138,17 @@ onMounted(() => {
 }
 
 /*scrollbar */
-.menuLateral::-webkit-scrollbar { /* Ancho del scrollbar */
+.proyectos::-webkit-scrollbar { /* Ancho del scrollbar */
     width: 10px;
 }
-.menuLateral::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
+.proyectos::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
     background: #a7b9f5;
 }
-.menuLateral::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
+.proyectos::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
     background: #9dabd8;     /* Color del thumb */
     border-radius: 6px;     /* Bordes redondeados del thumb */
 }
-.menuLateral::-webkit-scrollbar-thumb:hover { /* Color del thumb cuando el cursor pasa sobre él */
+.proyectos::-webkit-scrollbar-thumb:hover { /* Color del thumb cuando el cursor pasa sobre él */
     background: #98a3c9;
 }
 
