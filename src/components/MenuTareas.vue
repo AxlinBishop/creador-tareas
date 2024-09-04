@@ -1,7 +1,7 @@
 <!-- ESTE COMPONENTE ES UN ASIDE EN EL CUAL SE PUEDEN AGREGAR TAREAS MEDIANTE 
     LOS CAMPOS DE NOMBRE Y DESCRIPCIÓN -->
 <template>
-    <section class="menu fullHeight" >
+    <section class="menu fullHeight">
         <!-- UNA BARRA VERTICAL CON EL ICONO DE UNA FLECHA QUE AL PRESIONAR HARÁ QUE SE EXTIENDA LA BARRA -->
         <div class="menuLateral fullHeight" v-if="store.state.isExpanded">
             <div class="agregarTarea-form">
@@ -10,36 +10,38 @@
                     <input type="text" name="nombreTarea" id="nombreTarea" v-model="nombreTarea">
                 </div>
                 <div class="form-group">
-                    <label for="descripcionTarea">Descripción  de la Tarea</label>
+                    <label for="descripcionTarea">Descripción de la Tarea</label>
                     <textarea name="descripciónTarea" id="descripcionTarea" v-model="descripcionTarea"></textarea>
                 </div>
                 <button @click="agregarTarea">Agregar Tarea</button>
             </div>
             <hr>
             <section class="proyectos">
+                <h2>Proyectos</h2>
                 <div class="form-group">
                     <input type="text" name="nuevoProyecto" id="nuevoProyecto" v-model="nombreProyecto">
                     <button @click="agregarProyecto">Nuevo Proyecto</button>
                 </div>
                 <div v-for="(proyecto, index) in store.state.proyectos" :key="index">
                     <div class="proyecto_card" @click="cambiarProyectoActual(index)">
-                        <p>{{ proyecto }}</p>
+                        <BloqueProyectos :proyecto />
                     </div>
                 </div>
             </section>
         </div>
-        <div class="menuExtension fullHeight" @click="changeExpandedState"> 
+        <div class="menuExtension fullHeight" @click="changeExpandedState">
             <!-- CON LOS V-IF CAMBIO EL SENTID DE LA FLECHA DEPENDIENDO DEL STATE DE isExpanded -->
-            <p  v-if="store.state.isExpanded"><--</p>
-            <p  v-if="!store.state.isExpanded"> --> </p>
+            <p v-if="store.state.isExpanded"> <-- </p>
+            <p v-if="!store.state.isExpanded"> --> </p>
         </div>
     </section>
 </template>
 
 <script setup>
 /* IMPORTACIONES */
+import BloqueProyectos from './BloqueProyectos.vue';
 import { useStore } from 'vuex'; /* PARA PODER UTILIZAR LA STORE DE VUEX */
-import {ref} from "vue"; /* PARA QUE EL VALOR DE LAS VARIABLES SEAN REACTIVAS */
+import { ref } from "vue"; /* PARA QUE EL VALOR DE LAS VARIABLES SEAN REACTIVAS */
 import { onMounted } from 'vue'; /* PARA UTILIZAR EL HOOK ONMOUNTED */
 
 /* VARIABLES */
@@ -52,22 +54,22 @@ const proyectoActual = ref(""); /* ACÁ SE GUARDA EL NOMBRE DEL PROYECTO SELECCI
 
 /* MÉTODOS */
 /* AL PRESIONAR EL BOTÓN SE CAMBIARÁ EL PROYECTO ACTUAL */
-function cambiarProyectoActual(index){ 
+function cambiarProyectoActual(index) {
     proyectoActual.value = store.state.proyectos[index]; /* CAMBIA EL VALOR DE PROYECTOACTUAL POR EL DEL PROYECTO SELECCIONADO */
     store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 }
 
 /* AL PRESIONAR EL BOTÓN SE AGREGARÁ EL STATE UNA NUEVA TAREA EN EL ARREGLO */
-function agregarTarea(nombre, descripcion){ 
-    tarea.value = {"proyecto": proyectoActual.value, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente"}
+function agregarTarea(nombre, descripcion) {
+    tarea.value = { "proyecto": proyectoActual.value, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente" }
     store.commit("agregarTarea", tarea.value) /* ENVIA TAREA.VALUE COMO PAYLOAD A LA MUTACIÓN */
 }
 /* AL PRESIONAR LA BARRA DE EXPANSIÓN */
-function changeExpandedState(){  /* CAMBIA EL STATE DE isExpanded, LO QUE MUESTRA O OCULTA EL MENU LATERAL PARA QUE PAREZCA UN TOGGLE */
+function changeExpandedState() {  /* CAMBIA EL STATE DE isExpanded, LO QUE MUESTRA O OCULTA EL MENU LATERAL PARA QUE PAREZCA UN TOGGLE */
     store.commit("changeExpandedState") /* LLAMA A LA MUTACIÓN EN EL STORE changeExpandedState */
 }
 /* AGREGAR UN NUEVO PROYECTO */
-function agregarProyecto(){
+function agregarProyecto() {
     store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
     proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
     store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
@@ -76,39 +78,64 @@ function agregarProyecto(){
 
 /* AL MONTAR LA APLICACIÓN SE REVISA SI HAY ALGÚN ELEMENTO EN PROYECTOS, SI NO HAY, SE CREA UNO */
 onMounted(() => {
-    if(!store.state.proyectos[0]){ /* SI NO EXISTE UN PROYECTO EN EL STATE */
+    if (!store.state.proyectos[0]) { /* SI NO EXISTE UN PROYECTO EN EL STATE */
         store.commit("agregarProyecto", "Proyecto General") /* CREA EL PROYECTO GENERAL EN EL STATE */
     }
     proyectoActual.value = "Proyecto General"; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
     store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 })
 
-</script> 
+</script>
 
 <style scoped>
 /* ESTILOS GENERALES DEL COMPONENTE */
-.fullHeight{
+.fullHeight {
     height: 100vh;
 }
-.menu{ /* EL MENÚ Y LA BARRA DE EXPANSIÓN SE ENCUENTRAN UNA AL LADO DE LA OTRA */
+
+.menu {
+    /* EL MENÚ Y LA BARRA DE EXPANSIÓN SE ENCUENTRAN UNA AL LADO DE LA OTRA */
     display: flex;
 }
+
 /* ESTILO DE LOS ITEMS DEL MENU LATERAL */
-.menuLateral{
+.menuLateral {
     background-color: aqua;
     padding: 0 2rem;
+    width: 30vh; /* TAMAÑO DEL MENU LATERAL */
+    overflow-y: auto;
 }
-.proyecto_card{ /* ESTILO DE LAS CARD DE PROYECTOS */
+
+.proyecto_card {
+    /* ESTILO DE LAS CARD DE PROYECTOS */
     background-color: rgba(41, 45, 150, 0.4);
 }
-    
-.form-group{ /* COLOCAR LABEL-INPUT EN FORMA VERTICAL */
+
+.form-group {
+    /* COLOCAR LABEL-INPUT EN FORMA VERTICAL */
     display: flex;
     flex-direction: column;
 }
+
 /* ESTILO DE LOS ITEMS DEL MENU DE EXPANSIÓN */
-.menuExtension{
+.menuExtension {
     background-color: rgb(48, 165, 77);
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
+
+/*scrollbar */
+.menuLateral::-webkit-scrollbar { /* Ancho del scrollbar */
+    width: 10px;
+}
+.menuLateral::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
+    background: #a7b9f5;
+}
+.menuLateral::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
+    background: #9dabd8;     /* Color del thumb */
+    border-radius: 6px;     /* Bordes redondeados del thumb */
+}
+.menuLateral::-webkit-scrollbar-thumb:hover { /* Color del thumb cuando el cursor pasa sobre él */
+    background: #98a3c9;
+}
+
 </style>
