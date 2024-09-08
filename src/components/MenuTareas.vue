@@ -27,7 +27,7 @@
                 <div class="proyectos">
                     <div  v-for="(proyecto, index) in store.state.proyectos" :key="index">
                         <div class="proyecto_card" @click="cambiarProyectoActual(index)">
-                            <BloqueProyectos :proyecto />
+                            <BloqueProyectos :proyecto :index />
                         </div>
                     </div>
                 </div>
@@ -137,12 +137,12 @@ onMounted(() => {
 .menuExtension {
     background-color:#134AC2;
     padding: 0 0.5rem;
-    color: aliceblue;
+    color: aliceblue; /* COLOR DE < Y > DEL TOGGLE DEL MENU */
     font-size: large;
     font-weight: 100;
     &:hover{
         background-color: #082B77;
-        cursor: pointer;
+        cursor: pointer; /* AL HACER HOVER SOBRE EL DIV DE TOGGLE EL CURSOR CAMBIA EL PUNTERO AL DEDITO */
     }
 }
 
