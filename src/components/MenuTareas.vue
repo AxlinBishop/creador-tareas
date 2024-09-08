@@ -74,14 +74,13 @@ function changeExpandedState() {  /* CAMBIA EL STATE DE isExpanded, LO QUE MUEST
 }
 /* AGREGAR UN NUEVO PROYECTO */
 function agregarProyecto() {
-    if(!nombreProyecto.value.trim()|(proyectoExiste())) {
-        console.log(proyectoExiste()) /* debug */
-        if(!nombreProyecto.value.trim()){
-            alert("Debe ingresar un nombre al Proyecto")
-        }else{
-            alert("El proyecto ya existe")
+    if(!nombreProyecto.value.trim()|(proyectoExiste())) { /* COMPRUEBA SI EL NOMBRE INGRESADO EN EL INPUT ESTÁ VACÍO O YA EXISTE */
+        if(!nombreProyecto.value.trim()){ /*  SI EL NOMBRE ESTÁ VACÍO */
+            alert("Debe ingresar un nombre al Proyecto") /* ALERTA DE QUE DEBE INGRESAR UN NOMBRE */
+        }else{ /* SI EL PROYECTO EXISTE */
+            alert("El proyecto ya existe") /* ALERTA DE QUE EL PROYECTO YA EXISTE */
         }
-    }else{
+    }else{ /* EN CASO DE QUE NO EXISTA EL PROYECTO Y NO SE ENCUENTRE EL CAMPO VACÍO */
         store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
         proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
         store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
@@ -89,11 +88,11 @@ function agregarProyecto() {
     }
 }
 
-function proyectoExiste(){
-    let existe = false;
-    store.state.proyectos.forEach(proyecto => {
-        if (proyecto == nombreProyecto.value) {
-            existe = true;
+function proyectoExiste(){ /* REVISA SI EL PROYECTO EXISTE */
+    let existe = false; /* EL ESTADO ORIGINAL ES QUE NO */
+    store.state.proyectos.forEach(proyecto => { /* RECORRE TODA EL ARRAY DE PROYECTOS EN EL STATE */
+        if (proyecto == nombreProyecto.value) { /* EN CASO DE QUE EL NOMBRE QUE SE ESTA INGRESANDO EN EL INPUT COINCUDA CON EL DE UN PROYECTO YA CREADO */
+            existe = true; /* EL PROYECTO YA EXISTE */
         }
     });
     return existe;
@@ -128,17 +127,17 @@ onMounted(() => {
 .menuTarea {
     padding: 1.5rem 2rem;
 }
-.menu_proyectos{
-    height: 65.6%;
+.menu_proyectos{ /* ACOMODAMOS LA MEDIDA DE LA SECCIÓN DE ACUERDO AL ESTILO */
+    height: 65.6%; /* LA SECCIÓN DONDE SE MUESTRAN LOS PROYECTOS UTILIZA UN 65.6% DEL ALTO DE LA PÁGINA */
 }
-.menu_proyectos h2{
+.menu_proyectos h2{ /* SEPARA DE FORMA VERTICAL EL TITULO DE PROYECTOS */
     margin: 1rem 0;
 }
 .proyectos{
-    height: 100%;
-    overflow-y: auto;
+    height: 100%; /* UTILIZA EL 100% DEL ALTO DE SU CONTENEDOR */
+    overflow-y: auto; /* EN CASO DE QUE HAYAN MÁS PROYECTOS DE LOS QUE CABEN EN EL DIV, APARECE UNA SCROLLBAR */
 }
-.proyectos_agregar{
+.proyectos_agregar{ /* SE CENTRA EL DIV CON UN PADDING */
     padding: 1rem;
 }
 .form-group {
