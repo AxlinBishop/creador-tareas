@@ -10,20 +10,26 @@
 .bloque_marco{
     min-height: 2rem;
     border: solid 1px;
-    overflow-x: auto;
     padding: 0.5rem;
+    overflow: hidden; /* FUERA DEL HOVER NO SE MOSTRARÁ EL OVERFLOW */
+    /* ESTILO DE LAS CARD DE PROYECTOS */
+    background-color: #3567D2;
+        &:hover{
+        background-color: #D7E3FC;
+        overflow-x: auto; /* AL HACER HOVER SE VERÁ EL SCROLL */
+}
 }
 .bloque_nombre{
     margin: 0;
 }
-/*scrollbar */
-.bloque_marco::-webkit-scrollbar { /* Ancho del scrollbar */
+/*scrollbar CUANDO SE LE HAGA HOVER AL BLOQUE*/ 
+.bloque_marco:hover::-webkit-scrollbar { /* Ancho del scrollbar */
     height: 8px;
 }
-.bloque_marco::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
+.bloque_marco:hover::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
     background: #a7b9f5;
 }
-.bloque_marco::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
+.bloque_marco:hover::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
     background: #9dabd8;     /* Color del thumb */
     border-radius: 6px;     /* Bordes redondeados del thumb */
 }
@@ -35,8 +41,16 @@
 
 <script setup>
 import { defineProps } from 'vue';
+import { useStore } from 'vuex';
 
-let props = defineProps({
+const store = useStore();
+/* PROPS */
+let props = defineProps({ /* PROPS RECIBIDOS DESDE MENUTAREAS */
     proyecto: String,
 })
+
+/* VARIABLES */
+let esProyectoActual = false
+/* METODOS */
+
 </script>

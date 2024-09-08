@@ -7,11 +7,11 @@
             <div class="menuTarea agregarTarea-form">
                 <div class="form-group">
                     <label for="nombreTarea">Nombre de la tarea</label>
-                    <input type="text" name="nombreTarea" id="nombreTarea" v-model="nombreTarea">
+                    <input @keydown.enter="agregarTarea" type="text" name="nombreTarea" id="nombreTarea" v-model="nombreTarea" required>
                 </div>
                 <div class="form-group">
                     <label for="descripcionTarea">Descripción de la Tarea</label>
-                    <textarea name="descripciónTarea" id="descripcionTarea" v-model="descripcionTarea"></textarea>
+                    <textarea @keydown.enter="agregarTarea" name="descripciónTarea" id="descripcionTarea" v-model="descripcionTarea"></textarea>
                 </div>
                 <button @click="agregarTarea">Agregar Tarea</button>
             </div>
@@ -20,7 +20,7 @@
                 <div class="proyectos_agregar">
                     <h2>Proyectos</h2>
                     <div class="form-group">
-                        <input type="text" name="nuevoProyecto" id="nuevoProyecto" v-model="nombreProyecto">
+                        <input @keydown.enter="agregarProyecto" type="text" name="nuevoProyecto" id="nuevoProyecto" v-model="nombreProyecto">
                         <button @click="agregarProyecto">Nuevo Proyecto</button>
                     </div>
                 </div>
@@ -35,8 +35,8 @@
         </div>
         <div class="menuExtension fullHeight" @click="changeExpandedState">
             <!-- CON LOS V-IF CAMBIO EL SENTID DE LA FLECHA DEPENDIENDO DEL STATE DE isExpanded -->
-            <p v-if="store.state.isExpanded"> <-- </p>
-            <p v-if="!store.state.isExpanded"> --> </p>
+            <p v-if="store.state.isExpanded"> < </p>
+            <p v-if="!store.state.isExpanded"> > </p>
         </div>
     </section>
 </template>
@@ -74,10 +74,14 @@ function changeExpandedState() {  /* CAMBIA EL STATE DE isExpanded, LO QUE MUEST
 }
 /* AGREGAR UN NUEVO PROYECTO */
 function agregarProyecto() {
-    store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
-    proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
-    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
-    nombreProyecto.value = ""; /* SE REINICIA EL VALOR DEL INPUT */
+    if(!nombreProyecto.value.trim()){
+        alert("Debe ingresar un nombre al Proyecto")
+    }else{
+        store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
+        proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
+        store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
+        nombreProyecto.value = ""; /* SE REINICIA EL VALOR DEL INPUT */
+    }
 }
 
 /* AL MONTAR LA APLICACIÓN SE REVISA SI HAY ALGÚN ELEMENTO EN PROYECTOS, SI NO HAY, SE CREA UNO */
@@ -104,14 +108,17 @@ onMounted(() => {
 
 /* ESTILO DE LOS ITEMS DEL MENU LATERAL */
 .menuLateral{
-    background-color: aqua;
+    background-color: #7A9EEA;
     width: 30vh; /* TAMAÑO DEL MENU LATERAL */
 }
 .menuTarea {
-    padding: 0 2rem;
+    padding: 1.5rem 2rem;
 }
 .menu_proyectos{
-    height: 70%;
+    height: 65.6%;
+}
+.menu_proyectos h2{
+    margin: 1rem 0;
 }
 .proyectos{
     height: 100%;
@@ -120,11 +127,6 @@ onMounted(() => {
 .proyectos_agregar{
     padding: 1rem;
 }
-.proyecto_card {
-    /* ESTILO DE LAS CARD DE PROYECTOS */
-    background-color: rgba(41, 45, 150, 0.4);
-}
-
 .form-group {
     /* COLOCAR LABEL-INPUT EN FORMA VERTICAL */
     display: flex;
@@ -133,23 +135,30 @@ onMounted(() => {
 
 /* ESTILO DE LOS ITEMS DEL MENU DE EXPANSIÓN */
 .menuExtension {
-    background-color: rgb(48, 165, 77);
+    background-color:#134AC2;
     padding: 0 0.5rem;
+    color: aliceblue;
+    font-size: large;
+    font-weight: 100;
+    &:hover{
+        background-color: #082B77;
+        cursor: pointer;
+    }
 }
 
-/*scrollbar */
+/*SCROLLBAR*/
 .proyectos::-webkit-scrollbar { /* Ancho del scrollbar */
     width: 10px;
 }
 .proyectos::-webkit-scrollbar-track {/* Color de fondo del scrollbar */
-    background: #a7b9f5;
+    background: #3567D2;
 }
 .proyectos::-webkit-scrollbar-thumb { /* Color y forma del "thumb" */
-    background: #9dabd8;     /* Color del thumb */
+    background: #0B3898;     /* Color del thumb */
     border-radius: 6px;     /* Bordes redondeados del thumb */
 }
 .proyectos::-webkit-scrollbar-thumb:hover { /* Color del thumb cuando el cursor pasa sobre él */
-    background: #98a3c9;
+    background: #082B77;
 }
 
 </style>
