@@ -1,5 +1,5 @@
 <template>
-    <div class="bloque_marco">
+    <div class="bloque_marco" :style="isActive(proyecto)">
         <div class="bloque">
             <span class="bloque_nombre">{{proyecto}}</span>
         </div>
@@ -81,5 +81,11 @@ let esProyectoActual = false
 /* METODOS */
 function eliminarProyecto(index){ /* TOMA EL INDEX DEL PROYECTO Y LLAMA LA MUTATION DE ELIMINARPROYECTO CON EL INDICE DEPAYLOAD */
     store.commit("eliminarProyecto", index)
+}
+
+const isActive = (proyecto) => {
+    if (store.state.proyectoActual === props.proyecto){
+        return { backgroundColor: '#A9C1F4' }
+    }
 }
 </script>

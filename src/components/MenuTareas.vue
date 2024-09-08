@@ -74,8 +74,13 @@ function changeExpandedState() {  /* CAMBIA EL STATE DE isExpanded, LO QUE MUEST
 }
 /* AGREGAR UN NUEVO PROYECTO */
 function agregarProyecto() {
-    if(!nombreProyecto.value.trim()){
-        alert("Debe ingresar un nombre al Proyecto")
+    if(!nombreProyecto.value.trim()|(proyectoExiste())) {
+        console.log(proyectoExiste()) /* debug */
+        if(!nombreProyecto.value.trim()){
+            alert("Debe ingresar un nombre al Proyecto")
+        }else{
+            alert("El proyecto ya existe")
+        }
     }else{
         store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
         proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
@@ -84,6 +89,15 @@ function agregarProyecto() {
     }
 }
 
+function proyectoExiste(){
+    let existe = false;
+    store.state.proyectos.forEach(proyecto => {
+        if (proyecto == nombreProyecto.value) {
+            existe = true;
+        }
+    });
+    return existe;
+}
 /* AL MONTAR LA APLICACIÓN SE REVISA SI HAY ALGÚN ELEMENTO EN PROYECTOS, SI NO HAY, SE CREA UNO */
 onMounted(() => {
     if (!store.state.proyectos[0]) { /* SI NO EXISTE UN PROYECTO EN EL STATE */
