@@ -3,7 +3,7 @@
         <div class="bloque">
             <span class="bloque_nombre">{{proyecto}}</span>
         </div>
-        <span class="btn_eliminar" @click="eliminarProyecto(index)">x</span>
+        <span class="btn_eliminar" @click="eliminarProyecto(index)">❌</span>
     </div>
 </template>
 
@@ -36,13 +36,13 @@
     color: black;
 }
 .btn_eliminar{
-    margin: 0 auto;
-    font-size: 2rem;
+    margin: auto 0.2rem;
+    font-size: 1.2rem;
     color: aliceblue;
     font-weight: 500;
     &:hover{
-        color: black;
-        cursor: pointer;
+        background-color: rgba(0, 0, 100, 0.2);
+        cursor: pointer; /* PARA QUE EL USUARIO SEPA QUE ES CLICKEABLE */
     }
 }
 .bloque_nombre{
@@ -85,7 +85,7 @@ function eliminarProyecto(index){ /* TOMA EL INDEX DEL PROYECTO Y LLAMA LA MUTAT
 
 const isActive = (proyecto) => {
     if (store.state.proyectoActual === props.proyecto){
-        return { backgroundColor: '#A9C1F4' }
+        return { backgroundColor: '#4D94FF' }
     }
 }
 </script>

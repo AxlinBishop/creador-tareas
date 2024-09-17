@@ -35,6 +35,6 @@ body{
   background-color: #D7E3FC;
 }
 .section_listas h1{
-  margin: 2rem 6rem;
+  margin: 2rem 2rem;
 }
 </style>

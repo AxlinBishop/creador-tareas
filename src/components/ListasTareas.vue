@@ -14,7 +14,6 @@ import ListaTareasPendientes from './ListaTareasPendientes.vue';
 .listas{
     width: 100%;
     height: 80vh;
-    background-color: #A9C1F4;
     padding: 1rem;
     justify-content: left;
 }

@@ -23,8 +23,8 @@ const store = useStore(); /* PARA UTILIZAR LA STORE */
 
 <style scoped>
 .lista{
-    margin: 0 6rem;
-    width: 20vw;
+    margin: 0 2rem;
+    width: 30vw;
     background-color: #7A9EEA;
     border-radius: 10px;
 }
@@ -55,7 +55,5 @@ const store = useStore(); /* PARA UTILIZAR LA STORE */
 .tarea{
     width: 98%;
     margin: auto;
-}
-.lista h2{
 }
 </style>

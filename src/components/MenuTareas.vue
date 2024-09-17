@@ -35,8 +35,8 @@
         </div>
         <div class="menuExtension fullHeight" @click="changeExpandedState">
             <!-- CON LOS V-IF CAMBIO EL SENTID DE LA FLECHA DEPENDIENDO DEL STATE DE isExpanded -->
-            <p v-if="store.state.isExpanded"> < </p>
-            <p v-if="!store.state.isExpanded"> > </p>
+            <p v-if="store.state.isExpanded"> ◀ </p>
+            <p v-if="!store.state.isExpanded"> ▶ </p>
         </div>
     </section>
 </template>
@@ -54,18 +54,18 @@ const tarea = ref({}); /* SE GUARDARA EL OBJETO CON LAS PROPIEDADES DE NOMBRE Y 
 const nombreTarea = ref("") /* ACÁ SE GUARDA EL NOMBRE QUE SE LE ASIGNARÁ A LA TAREA */
 const descripcionTarea = ref(""); /* ACÁ SE GUARDA LA DESCRIPCIÓN DE LO QUE SE DEBE HACER */
 const nombreProyecto = ref(""); /* ACÁ SE GUARDA EL NOMBRE DEL PROYECTO INGRESADO EN EL INPUT NOMBREPROYECTO */
-const proyectoActual = ref(""); /* ACÁ SE GUARDA EL NOMBRE DEL PROYECTO SELECCIONADO PARA TRABAJAR */
+const nuevoProyectoActual = ref(""); /* ACÁ SE GUARDA EL NOMBRE DEL PROYECTO SELECCIONADO PARA TRABAJAR */
 
 /* MÉTODOS */
 /* AL PRESIONAR EL BOTÓN SE CAMBIARÁ EL PROYECTO ACTUAL */
 function cambiarProyectoActual(index) {
-    proyectoActual.value = store.state.proyectos[index]; /* CAMBIA EL VALOR DE PROYECTOACTUAL POR EL DEL PROYECTO SELECCIONADO */
-    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
+    nuevoProyectoActual.value = store.state.proyectos[index]; /* CAMBIA EL VALOR DE PROYECTOACTUAL POR EL DEL PROYECTO SELECCIONADO */
+    store.commit("cambiarProyectoActual", nuevoProyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 }
 
 /* AL PRESIONAR EL BOTÓN SE AGREGARÁ EL STATE UNA NUEVA TAREA EN EL ARREGLO */
 function agregarTarea(nombre, descripcion) {
-    tarea.value = { "proyecto": proyectoActual.value, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente" }
+    tarea.value = { "proyecto": nuevoProyectoActual.value, "nombre": nombreTarea.value, "descripcion": descripcionTarea.value, "estado": "pendiente" }
     store.commit("agregarTarea", tarea.value) /* ENVIA TAREA.VALUE COMO PAYLOAD A LA MUTACIÓN */
 }
 /* AL PRESIONAR LA BARRA DE EXPANSIÓN */
@@ -82,8 +82,8 @@ function agregarProyecto() {
         }
     }else{ /* EN CASO DE QUE NO EXISTA EL PROYECTO Y NO SE ENCUENTRE EL CAMPO VACÍO */
         store.commit("agregarProyecto", nombreProyecto.value) /* ENVIA EL NOMBRE INGRESADO COMO PAYLOAD */
-        proyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
-        store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
+        nuevoProyectoActual.value = nombreProyecto.value; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
+        store.commit("cambiarProyectoActual", nuevoProyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
         nombreProyecto.value = ""; /* SE REINICIA EL VALOR DEL INPUT */
     }
 }
@@ -101,9 +101,9 @@ function proyectoExiste(){ /* REVISA SI EL PROYECTO EXISTE */
 onMounted(() => {
     if (!store.state.proyectos[0]) { /* SI NO EXISTE UN PROYECTO EN EL STATE */
         store.commit("agregarProyecto", "Proyecto General") /* CREA EL PROYECTO GENERAL EN EL STATE */
+        nuevoProyectoActual.value = "Proyecto General"; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
+        store.commit("cambiarProyectoActual", nuevoProyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
     }
-    proyectoActual.value = "Proyecto General"; /* CAMBIA EL VALOR DEL PROYECTO ACTUAL AL PROYECTO CREADO */
-    store.commit("cambiarProyectoActual", proyectoActual.value); /* CAMBIA EL VALOR EN EL STATE */
 })
 
 </script>
@@ -121,7 +121,7 @@ onMounted(() => {
 
 /* ESTILO DE LOS ITEMS DEL MENU LATERAL */
 .menuLateral{
-    background-color: #7A9EEA;
+    background-color: #99C2FF;
     width: 30vh; /* TAMAÑO DEL MENU LATERAL */
 }
 .menuTarea {
@@ -148,13 +148,13 @@ onMounted(() => {
 
 /* ESTILO DE LOS ITEMS DEL MENU DE EXPANSIÓN */
 .menuExtension {
-    background-color:#134AC2;
+    background-color:#0066CC;
     padding: 0 0.5rem;
     color: aliceblue; /* COLOR DE < Y > DEL TOGGLE DEL MENU */
     font-size: large;
     font-weight: 100;
     &:hover{
-        background-color: #082B77;
+        background-color: #004C99;
         cursor: pointer; /* AL HACER HOVER SOBRE EL DIV DE TOGGLE EL CURSOR CAMBIA EL PUNTERO AL DEDITO */
     }
 }
