@@ -37,6 +37,9 @@ export default createStore({
     /* AGREGAR PROYECTO AL STATE */
     agregarProyecto: function(state, payload){ /* RECIBE EL NOMBRE DEL PROYECTO COMO PUSH */
       state.proyectos.push(payload)
+    },
+    eliminarProyecto: function(state, payload){ /* RECIBE EL INDEX DEL PROYECTO A ELIMINAR */
+      state.proyectos.splice(payload, 1) 
     }
   },
   actions: {
